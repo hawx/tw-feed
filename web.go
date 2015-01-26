@@ -19,6 +19,7 @@ var (
 	accessToken    = flag.String("access-token", "", "")
 	accessSecret   = flag.String("access-secret", "", "")
 
+	size   = flag.Int("size", 20, "")
 	port   = flag.String("port", "8080", "")
 	socket = flag.String("socket", "", "")
 	help   = flag.Bool("help", false, "")
@@ -33,6 +34,7 @@ const HELP = `Usage: tw-feed [options]
     --access-token <value>
     --access-secret <value>
 
+    --size <n>          # Max number of messages to show
     --port <port>       # Port to run on (default: '8080')
     --socket <path>     # Serve using a unix socket instead
     --help              # Display this help message
@@ -46,8 +48,13 @@ func main() {
 		return
 	}
 
-	store := store.New(20)
+	store := store.New(*size)
 	auth := stream.Auth(*consumerKey, *consumerSecret, *accessToken, *accessSecret)
+
+	name, url, err := auth.Details()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	go func() {
 		for tweet := range stream.Self(auth) {
@@ -57,14 +64,9 @@ func main() {
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		tweets := store.Latest()
-		if len(tweets) == 0 {
-			w.WriteHeader(204)
-			return
-		}
-
 		feed := &feeds.Feed{
-			Title:   tweets[0].User.Name,
-			Link:    &feeds.Link{Href: *tweets[0].User.Url},
+			Title:   name,
+			Link:    &feeds.Link{Href: url},
 		  Created: time.Now(),
 		}
 

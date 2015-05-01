@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/gorilla/feeds"
-	"github.com/hawx/serve"
-	"github.com/hawx/tw-stream"
+	"hawx.me/code/serve"
 	"hawx.me/code/tw-feed/store"
+	"hawx.me/code/tw-stream"
 
 	"flag"
 	"fmt"

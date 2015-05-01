@@ -1,7 +1,7 @@
 package store
 
 import (
-	"github.com/hawx/tw-stream"
+	"hawx.me/code/tw-stream"
 )
 
 type Store interface {
@@ -22,7 +22,7 @@ func New(size int) Store {
 func (s *store) next() int {
 	if s.here == -1 {
 		s.here = 0
-	} else if s.here == len(s.arr) - 1 {
+	} else if s.here == len(s.arr)-1 {
 		s.fill = true
 		s.here = 0
 	} else {
@@ -38,7 +38,7 @@ func (s *store) Add(tweet stream.Tweet) {
 
 func (s *store) Latest() []stream.Tweet {
 	if !s.fill {
-		return s.arr[0:s.here+1]
+		return s.arr[0 : s.here+1]
 	}
 
 	return append(s.arr[s.here+1:len(s.arr)], s.arr[0:s.here+1]...)

@@ -1,14 +1,14 @@
 package main
 
 import (
-	"github.com/hawx/serve"
-	"github.com/hawx/tw-feed/store"
-	"github.com/hawx/tw-stream"
 	"github.com/gorilla/feeds"
+	"github.com/hawx/serve"
+	"github.com/hawx/tw-stream"
+	"hawx.me/code/tw-feed/store"
 
-	"log"
 	"flag"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 )
@@ -67,12 +67,12 @@ func main() {
 		feed := &feeds.Feed{
 			Title:   name,
 			Link:    &feeds.Link{Href: url},
-		  Created: time.Now(),
+			Created: time.Now(),
 		}
 
 		for _, tweet := range tweets {
 			feed.Items = append(feed.Items, &feeds.Item{
-			  Link:        &feeds.Link{Href: tweet.Link()},
+				Link:        &feeds.Link{Href: tweet.Link()},
 				Description: tweet.Text,
 				Created:     tweet.CreatedAt.Time,
 			})

@@ -1,9 +1,10 @@
 package store
 
 import (
-	"github.com/hawx/tw-linkfeed/stream"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/hawx/tw-stream"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestStore(t *testing.T) {
